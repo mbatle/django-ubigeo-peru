@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta language="en" encoding="utf-8"/>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <title>Prueba de Ubigeos</title>
+</head>
+<body>
+  <form method="POST" action="/">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+  </form>
+  <hr>
+  <h1>Incidentes</h1>
+    {% for incident in incidents %}
+      {% if forloop.first %}
+        <table>
+          <tr>
+            <th>id</th>
+            <th>Location</th>
+          </tr>
+      {% endif %}
+          <tr>
+            <td>{{ incident.id }}</td>
+            <td><a href="{% url 'incident_detail' incident.pk %}"> {{ incident.location.name }}</a></td>
+            <td>{{ incident.location.human_political_division }}</td>
+            <td><a href="{% url 'remove_incident' incident.pk %}"> Remove</a></td>
+          </tr>
+      {% if forloop.last %}
+        </table>
+      {% endif %}
+    {% endfor %}
+  <script src="{{ STATIC_URL}}js/ubigeo.js"></script>
+  <script>
+    var getProvincias = getProvinciasFactory("#id_location_1", "#id_location_2");
+    var getDistritos = getDistritosFactory("#id_location_2");
+    $('#id_location_0').on('change', function () {
+      getProvincias(this.value);
+    });
+    $('#id_location_1').on('change', function () {
+      getDistritos(this.value);
+    });
+  </script>
+</body>
+</html>

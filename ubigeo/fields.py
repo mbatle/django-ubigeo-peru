@@ -11,10 +11,7 @@ class UbigeoField(forms.MultiValueField):
             political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.REGION
             )
         if kwargs.get('with_international') is None:
-            regions = regions.exclude(reniec_code__startswith='9'
-            ).order_by('name', 'id')
-        provinces = Ubigeo.objects.none()
-        districts = Ubigeo.objects.none()
+            regions = regions.exclude(reniec_code__startswith='9').order_by('name', 'id')
 
         self.fields = (
             forms.ModelChoiceField(
@@ -22,11 +19,15 @@ class UbigeoField(forms.MultiValueField):
                 empty_label=u"",
                 required=False),
             forms.ModelChoiceField(
-                queryset=provinces,
+                queryset=Ubigeo.objects.filter(
+                    political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE
+                    ),
                 empty_label=u"",
                 required=False),
             forms.ModelChoiceField(
-                queryset=districts,
+                queryset=Ubigeo.objects.filter(
+                    political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.DISTRICT
+                    ),
                 empty_label=u"",
                 required=False,),
             )

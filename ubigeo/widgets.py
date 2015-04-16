@@ -13,15 +13,15 @@ class UbigeoWidget(widgets.MultiWidget):
         self.districts = districts
         _widgets = (
             widgets.Select(
-                choices = self.regions,
+                choices=self.regions,
                 attrs=attrs_1,
             ),
             widgets.Select(
-                choices = Ubigeo.objects.none(),
+                choices=Ubigeo.objects.none(),
                 attrs=attrs_2,
             ),
             widgets.Select(
-                choices = Ubigeo.objects.none(),
+                choices=Ubigeo.objects.none(),
                 attrs=attrs_3,
             )
         )
@@ -43,41 +43,36 @@ class UbigeoWidget(widgets.MultiWidget):
                             parent=ubigeo,
                             political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE)]
                 region_choices.insert(0, (u'',''))  # Add null case
-                self.widgets[1] = widgets.Select(
-                    choices=region_choices, )
+                self.widgets[1].choices = region_choices
                 return (ubigeo.id,
                     None,
                     None)
 
             if ubigeo.human_political_division == 'Provincia':
-                self.widgets[1] = widgets.Select(
-                    choices=((u.pk, u.name) \
+                self.widgets[1].choices=((u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo.parent,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE)), )
+                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE))
 
                 province_choices = [(u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo,
                             political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.DISTRICT)]
                 province_choices.insert(0, (u'',''))  # Add null case
-                self.widgets[2] = widgets.Select(
-                    choices=province_choices, )
+                self.widgets[2].choices=province_choices
                 return (ubigeo.parent.id,
                     ubigeo.id,
                     None)
 
             if ubigeo.human_political_division == 'Distrito':
-                self.widgets[1] = widgets.Select(
-                    choices=((u.pk, u.name) \
+                self.widgets[1].choices=((u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo.parent.parent,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE)), )
-                self.widgets[2] = widgets.Select(
-                    choices=((u.pk, u.name) \
+                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE))
+                self.widgets[2].choices=((u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo.parent,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.DISTRICT)), )
+                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.DISTRICT))
                 return (ubigeo.parent.parent.id,
                     ubigeo.parent.id,
                     ubigeo.id)

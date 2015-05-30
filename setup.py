@@ -9,7 +9,7 @@ def read(fname):
 
 setup(
     name='django_ubigeo_peru',
-    version='0.1',
+    version='0.1.1',
     license='GPL v.3',
     description='Django app para aplicaciones que requieran usar los ubigeos del Perú.',
     long_description=read('README.md'),

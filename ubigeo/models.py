@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from helpers import Enumeration
 
 
 class Ubigeo(models.Model):
 
-    POLITICAL_DIVISION_CHOICES = Enumeration([
-        (1, 'REGION', "Region"),
-        (2, 'PROVINCE', "Provincia"),
-        (3, 'DISTRICT', "Distrito")])
+    REGION = 1
+    PROVINCE = 2
+    DISTRICT = 3
+    POLITICAL_DIVISION_CHOICES = (
+        (REGION, "Region"),
+        (PROVINCE, "Provincia"),
+        (DISTRICT, "Distrito"))
 
     name = models.TextField()
     reniec_code = models.CharField(max_length=6)

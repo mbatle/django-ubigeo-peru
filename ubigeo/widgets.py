@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.forms import widgets
-from models import Ubigeo
+from .models import Ubigeo
 
 
 class UbigeoWidget(widgets.MultiWidget):
@@ -41,7 +41,7 @@ class UbigeoWidget(widgets.MultiWidget):
                 region_choices = [(u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE)]
+                            political_division=Ubigeo.PROVINCE)]
                 region_choices.insert(0, (u'',''))  # Add null case
                 self.widgets[1].choices = region_choices
                 return (ubigeo.id,
@@ -52,12 +52,12 @@ class UbigeoWidget(widgets.MultiWidget):
                 self.widgets[1].choices=((u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo.parent,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE))
+                            political_division=Ubigeo.PROVINCE))
 
                 province_choices = [(u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.DISTRICT)]
+                            political_division=Ubigeo.DISTRICT)]
                 province_choices.insert(0, (u'',''))  # Add null case
                 self.widgets[2].choices=province_choices
                 return (ubigeo.parent.id,
@@ -68,11 +68,11 @@ class UbigeoWidget(widgets.MultiWidget):
                 self.widgets[1].choices=((u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo.parent.parent,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.PROVINCE))
+                            political_division=Ubigeo.PROVINCE))
                 self.widgets[2].choices=((u.pk, u.name) \
                                  for u in Ubigeo.objects.filter(
                             parent=ubigeo.parent,
-                            political_division=Ubigeo.POLITICAL_DIVISION_CHOICES.DISTRICT))
+                            political_division=Ubigeo.DISTRICT))
                 return (ubigeo.parent.parent.id,
                     ubigeo.parent.id,
                     ubigeo.id)

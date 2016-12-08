@@ -4,7 +4,6 @@ from django.db import models
 
 
 class Ubigeo(models.Model):
-
     REGION = 1
     PROVINCE = 2
     DISTRICT = 3
@@ -21,7 +20,7 @@ class Ubigeo(models.Model):
     def __repr__(self):
         return self.qualified_name(self)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @property

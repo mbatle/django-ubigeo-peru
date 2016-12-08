@@ -2,7 +2,7 @@
 
 from django.core import serializers
 from django.http import HttpResponse
-from models import Ubigeo
+from .models import Ubigeo
 
 
 def region(request):

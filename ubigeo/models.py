@@ -21,7 +21,7 @@ class Ubigeo(models.Model):
         return self.qualified_name(self)
 
     def __str__(self):
-        return self.name
+        return '{} {}'.format(self.parent if self.parent else '', self.name)
 
     @property
     def human_political_division(self,):
